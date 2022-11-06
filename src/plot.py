@@ -10,13 +10,17 @@ class Plot:
             "constant": constant
         }
     
+    # w2y = - w1x - w0
+    def draw_line(self, w, color):
+        return plt.plot([-1, 1], [(-w[1] + w[0]) / -w[2], (w[1] + w[0]) / -w[2]], color=color)
+    
     ### true = above, false = below
-    def is_above_target_line(self, x: float, y: float, target_function):
-        return y - target_function["slope"] * x - target_function["constant"] > 0
+    def is_above_line(self, x: float, y: float, w):
+        return w[0] + w[1] * x + w[2] * y > 0
 
     def classify_data(self, x, y, target_function):
          for (i, (x1, y1)) in enumerate(zip(x, y)):
-            plt.plot(x1, y1, "o", color="blue" if self.is_above_target_line(x1, y1, target_function) else "red")
+            plt.plot(x1, y1, "o", color="blue" if self.is_above_line(x1, y1, target_function) else "red")
         
 
     def enable_drawing(self):
