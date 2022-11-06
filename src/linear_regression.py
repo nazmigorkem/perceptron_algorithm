@@ -6,7 +6,7 @@ class LinearRegression:
     def __init__(self):
         pass
     
-    def get_initial_weigths(self, x, y, target_function, fig = None):
+    def get_initial_weigths(self, x, y, target_function, size, fig = None):
         plot = Plot()
         zipped = [list(a) for a in zip([1] * len(x),x, y)]
         Y = []
@@ -16,6 +16,7 @@ class LinearRegression:
         if fig != None:
             plot.update_drawing(fig)
             plot.draw_line(w, "yellow")
-        error = Base.find_error(w, target_function) ** 2
-        print(f"Linear Reg Error: {error}")
-        return {"w": w, "error": error}
+        eout = Base.find_error(w, target_function, 1000)
+        ein = Base.ein(w, target_function, x, y, size)
+        print(f"Linear Reg E_out: {eout} | E_in: {ein}")
+        return {"w": w, "error": (eout, ein)}

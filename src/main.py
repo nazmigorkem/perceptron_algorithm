@@ -20,9 +20,10 @@ is_both = algorithm == "both"
 total_iteration_count = 0
 iteration_count = 0
 total_perceptron_error = 0
-total_linear_reg_error = 0
+total_linear_reg_eout = 0
+total_linear_reg_ein = 0
 perceptron_error = 0
-linear_reg_error = 0
+linear_reg_error = (0, 0)
 plot = Plot()
 x = np.random.uniform(-1, 1, n)
 y = np.random.uniform(-1, 1, n)
@@ -35,7 +36,7 @@ for i in range(loop_count):
     random_x = np.random.uniform(-1, 1, 2)
     random_y = np.random.uniform(-1, 1, 2)
     slope = (random_y[1] - random_y[0]) / (random_x[1] - random_x[0])
-    c = -slope * random_x[0] + random_y[0]
+    c = -1 * slope * random_x[0] + random_y[0]
     target_function = [c, slope, -1]
     
     # if loop count is 1 visualize
@@ -50,11 +51,11 @@ for i in range(loop_count):
             perceptron_error = result_perceptron["error"]
         
         elif is_linear_reg:
-            result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, fig)
+            result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, n, fig)
             linear_reg_error = result_linear_reg["error"]
         
         else:
-            result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, fig)
+            result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, n, fig)
             w = result_linear_reg["w"]
             result_perceptron = Perceptron().main_loop(w, x, y, target_function, fig, 0.1)
             iteration_count = result_perceptron["iteration_count"]
@@ -72,11 +73,11 @@ for i in range(loop_count):
             perceptron_error = result_perceptron["error"]
 
         elif is_linear_reg:
-            result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function)
+            result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, size=n)
             linear_reg_error = result_linear_reg["error"]
         
         else:
-            result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function)
+            result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, size=n)
             w = result_linear_reg["w"]
             print(f"Iteration {i+1}: ", end="")
             result_perceptron = Perceptron().main_loop(w, x, y, target_function, learning_rate=0.1)
@@ -87,11 +88,17 @@ for i in range(loop_count):
 
     total_iteration_count += iteration_count
     total_perceptron_error += perceptron_error
-    total_linear_reg_error += linear_reg_error
+    total_linear_reg_eout += linear_reg_error[0]
+    total_linear_reg_ein += linear_reg_error[1]
 
 if is_perceptron:
     print(f"Mean of iteration counts: {total_iteration_count / loop_count} | Mean of errors: {total_perceptron_error / loop_count}")
 elif is_linear_reg:
-    print(f"Mean of errors: {total_perceptron_error / loop_count}")
+    print(f"| Mean of linear reg eout: {total_linear_reg_eout / loop_count} \
+| Mean of linear reg ein: {total_linear_reg_ein / loop_count}")
 else:
-    print(f"Mean of iteration counts: {total_iteration_count / loop_count} | Mean of perceptron errors: {total_perceptron_error / loop_count} | Mean of perceptron errors: {total_linear_reg_error / loop_count}")
+    print(
+        f"Mean of iteration counts: {total_iteration_count / loop_count} \
+| Mean of perceptron errors: {total_perceptron_error / loop_count} \
+| Mean of linear reg eout: {total_linear_reg_eout / loop_count} \
+| Mean of linear reg ein: {total_linear_reg_ein / loop_count}")
