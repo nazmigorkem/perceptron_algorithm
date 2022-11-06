@@ -1,6 +1,4 @@
-import numpy
 from plot import Plot
-import time
 import matplotlib.pyplot as plt
 
 class Perceptron:
