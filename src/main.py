@@ -26,12 +26,10 @@ for i in range(loop_count):
     if (loop_count == 1):
         fig = plot.enable_drawing()
 
-        for (i, (x1, y1)) in enumerate(zip(x, y)):
-            plt.plot(x1, y1, "o", color="blue" if plot.is_above_target_line(x1, y1, target_function) else "red")
-        
+        plot.classify_data(x, y, target_function)
         result = Perceptron().main_loop(w, [x, y], target_function, fig)
         iteration_count = result["iteration_count"]
-        
+        plt.plot(np.linspace(-1, 1, 2), target_function["slope"] * np.linspace(-1, 1, 2) + target_function["constant"], color="green")
         plot.disable_drawing()
     else:
         result = Perceptron().main_loop(w, [x, y], target_function)
