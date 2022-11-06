@@ -66,7 +66,7 @@ for i in range(loop_count):
         plot.disable_drawing()
 
     else:
-        print(f"Iteration {i+1}: ", end="")
+        print(f"Run number {i+1}: ", end="")
         if is_perceptron:
             result_perceptron = Perceptron().main_loop(w, x, y, target_function)
             iteration_count = result_perceptron["iteration_count"]
@@ -79,7 +79,7 @@ for i in range(loop_count):
         else:
             result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, size=n)
             w = result_linear_reg["w"]
-            print(f"Iteration {i+1}: ", end="")
+            print(f"Run number {i+1}: ", end="")
             result_perceptron = Perceptron().main_loop(w, x, y, target_function, learning_rate=0.1)
             iteration_count = result_perceptron["iteration_count"]
             perceptron_error = result_perceptron["error"]
@@ -94,11 +94,11 @@ for i in range(loop_count):
 if is_perceptron:
     print(f"Mean of iteration counts: {total_iteration_count / loop_count} | Mean of errors: {total_perceptron_error / loop_count}")
 elif is_linear_reg:
-    print(f"| Mean of linear reg eout: {total_linear_reg_eout / loop_count} \
+    print(f"Mean of linear reg eout: {total_linear_reg_eout / loop_count} \
 | Mean of linear reg ein: {total_linear_reg_ein / loop_count}")
 else:
     print(
         f"Mean of iteration counts: {total_iteration_count / loop_count} \
 | Mean of perceptron errors: {total_perceptron_error / loop_count} \
-| Mean of linear reg eout: {total_linear_reg_eout / loop_count} \
+\nMean of linear reg eout: {total_linear_reg_eout / loop_count} \
 | Mean of linear reg ein: {total_linear_reg_ein / loop_count}")

@@ -1,5 +1,4 @@
 from plot import Plot
-import numpy as np
 import random
 from base import Base
 
