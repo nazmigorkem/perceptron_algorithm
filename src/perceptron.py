@@ -1,18 +1,19 @@
 from plot import Plot
 import numpy as np
 import random
+from base import Base
 
 class Perceptron:
     def __init__(self):
         pass
     
-    def update_weight_vector(self, w: list[float], point: list[float], d):
+    def update_weight_vector(self, w: list[float], point: list[float], d, learning_rate: float):
         for i, val in enumerate(w):
-            w[i] = val + d * point[i]
+            w[i] = val +  learning_rate * d * point[i]
 
         return w
 
-    def main_loop(self, w, x: list[float], y: list[float], target_function, fig = None):
+    def main_loop(self, w, x: list[float], y: list[float], target_function, fig = None, learning_rate: float = 1):
         plot = Plot()
         is_done = False
         iteration_count = 0
@@ -31,7 +32,7 @@ class Perceptron:
                 iteration_count += 1
                 is_done = False
                 selected = random.choice(misclassified)
-                w = self.update_weight_vector(w, selected[:-1], 1 if selected[3] else -1)
+                w = self.update_weight_vector(w, selected[:-1], 1 if selected[3] else -1, learning_rate)
 
                 if (w[2] != 0 and fig != None):
                     if coloring_line is not None:
@@ -41,21 +42,6 @@ class Perceptron:
             else:
                 is_done = True
 
-        error = self.find_error(w, target_function)
-        print(f"Found in {iteration_count} iterations | Error: {error}")
+        error = Base.find_error(w, target_function)
+        print(f"Perceptron Error: {error} | Found in {iteration_count} iterations")
         return {"iteration_count": iteration_count, "error": error ,"w": w}
-
-    def find_error(self, w, target_function):
-        x = np.random.uniform(-1, 1, 10000)
-        y = np.random.uniform(-1, 1, 10000)
-        w_count = 0
-        target_function_count = 0
-        plot = Plot()
-        for (xi, yi) in zip(x, y):
-            if (plot.is_above_line(xi, yi, w)):
-                w_count += 1
-            
-            if (plot.is_above_line(xi, yi, target_function)):
-                target_function_count += 1
-
-        return abs((target_function_count - w_count) / target_function_count)
