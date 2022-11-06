@@ -30,3 +30,7 @@ Run following commands for question outputs
 #### Question 10
 
 `$ python ./path/to/main.py 10 1000 both`
+
+#### Question 11
+
+`$ python ./path/to/main.py 1000 1000 nonlinear`

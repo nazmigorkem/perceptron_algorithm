@@ -60,7 +60,7 @@ for i in range(loop_count):
         
         elif is_non_linear:
             generated_Y = NonLinear().generate(x, y, fig)
-            result_nonlinear_reg = LinearRegression().get_initial_weigths_nonlinear(x, y, generated_Y)
+            result_nonlinear_reg = LinearRegression().get_initial_weigths_nonlinear(x, y, generated_Y, size=n)
             nonlinear_error = result_nonlinear_reg["error"]
         else:
             result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, n, fig)
