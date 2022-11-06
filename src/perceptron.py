@@ -28,15 +28,14 @@ class Perceptron:
                     w = self.update_weight_vector(w, [1, x, y], 1 if is_above else -1)
                     iteration_count += 1
 
+                    # w2y = -w1x - w0
                     if (w[2] != 0 and fig != None):
-                        # w2y = -w1x - w0
                         if coloring_line is not None:
                             coloring_line[0].remove()
                         coloring_line = plt.plot([-1, 1], [(-w[1] + w[0]) / -w[2], (w[1] + w[0]) / -w[2]])
-                        fig.canvas.draw()
-                        fig.canvas.flush_events()
-
+                        plot.update_drawing(fig)
                     break
                 is_done = True
-        print(iteration_count)
-        return iteration_count
+
+        print(f"Found in {iteration_count} iterations")
+        return {"iteration_count": iteration_count, "w": w}
