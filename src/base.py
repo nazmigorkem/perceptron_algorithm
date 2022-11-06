@@ -2,6 +2,7 @@ import numpy as np
 from plot import Plot
 
 class Base:
+    @staticmethod
     def find_error(w, target_function, size = 10000):
             x = np.random.uniform(-1, 1, size)
             y = np.random.uniform(-1, 1, size)
@@ -12,7 +13,8 @@ class Base:
                     count += 1
 
             return count / size
-
+            
+    @staticmethod
     def ein(w, target_function, x, y, size = 1000):
             count = 0
             plot = Plot()

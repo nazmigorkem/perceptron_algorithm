@@ -4,7 +4,14 @@
 
 ### Commands
 
-`$ python ./path/to/main.py <N> <loop_count> <perceptron | linear_reg | both> `
+`$ python ./path/to/main.py <N> <loop_count> <perceptron | linear_reg | both | nonlinear> `
+
+If you want to run visual plotting give `<loop_count>` value 1
+
+`$ python ./path/to/main.py 100 1 perceptron`
+`$ python ./path/to/main.py 100 1 linear_reg`
+`$ python ./path/to/main.py 100 1 both`
+`$ python ./path/to/main.py 100 1 nonlinear`
 
 Run following commands for question outputs
 

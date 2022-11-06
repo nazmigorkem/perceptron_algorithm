@@ -3,6 +3,7 @@ import sys
 from plot import Plot
 from perceptron import Perceptron
 from linear_regression import LinearRegression
+from non_linear import NonLinear
 
 if len(sys.argv) < 4:
     print(f"Please execute the file with following format => py ./path/to/main.py <N> <loop_count> <perceptron | linear_reg | both>")
@@ -15,6 +16,7 @@ algorithm = sys.argv[3]
 
 is_perceptron = algorithm == "perceptron"
 is_linear_reg = algorithm == "linear_reg"
+is_non_linear = algorithm == "nonlinear"
 is_both = algorithm == "both"
 
 total_iteration_count = 0
@@ -22,7 +24,9 @@ iteration_count = 0
 total_perceptron_error = 0
 total_linear_reg_eout = 0
 total_linear_reg_ein = 0
+total_nonlinear_ein = 0
 perceptron_error = 0
+nonlinear_error = 0
 linear_reg_error = (0, 0)
 plot = Plot()
 x = np.random.uniform(-1, 1, n)
@@ -54,6 +58,10 @@ for i in range(loop_count):
             result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, n, fig)
             linear_reg_error = result_linear_reg["error"]
         
+        elif is_non_linear:
+            generated_Y = NonLinear().generate(x, y, fig)
+            result_nonlinear_reg = LinearRegression().get_initial_weigths_nonlinear(x, y, generated_Y)
+            nonlinear_error = result_nonlinear_reg["error"]
         else:
             result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, n, fig)
             w = result_linear_reg["w"]
@@ -75,7 +83,12 @@ for i in range(loop_count):
         elif is_linear_reg:
             result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, size=n)
             linear_reg_error = result_linear_reg["error"]
-        
+
+        elif is_non_linear:
+            generated_Y = NonLinear().generate(x, y)
+            result_nonlinear_reg = LinearRegression().get_initial_weigths_nonlinear(x, y, generated_Y)
+            nonlinear_error = result_nonlinear_reg["error"]
+
         else:
             result_linear_reg = LinearRegression().get_initial_weigths(x, y, target_function, size=n)
             w = result_linear_reg["w"]
@@ -88,6 +101,7 @@ for i in range(loop_count):
 
     total_iteration_count += iteration_count
     total_perceptron_error += perceptron_error
+    total_nonlinear_ein += nonlinear_error
     total_linear_reg_eout += linear_reg_error[0]
     total_linear_reg_ein += linear_reg_error[1]
 
@@ -96,6 +110,8 @@ if is_perceptron:
 elif is_linear_reg:
     print(f"Mean of linear reg eout: {total_linear_reg_eout / loop_count} \
 | Mean of linear reg ein: {total_linear_reg_ein / loop_count}")
+elif is_non_linear:
+    print(f"Mean of nonlinear ein: {total_nonlinear_ein / loop_count}")
 else:
     print(
         f"Mean of iteration counts: {total_iteration_count / loop_count} \
